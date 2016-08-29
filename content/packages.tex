@@ -1,0 +1,151 @@
+%------------------------------------------------------------------------------
+%                         FIGURES
+%------------------------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{subfig}
+\DeclareGraphicsExtensions{.pdf,.png}
+
+%------------------------------------------------------------------------------
+%                         MULTIMEDIA
+%------------------------------------------------------------------------------
+\usepackage{media9}
+
+%------------------------------------------------------------------------------
+%                         COLORS
+%------------------------------------------------------------------------------
+\usepackage{xcolor}
+\definecolor{seggreen}{HTML}{81C882}
+\definecolor{seggreenlight}{HTML}{88A594}
+\definecolor{segred}{HTML}{D90051}
+\definecolor{seggray}{HTML}{666666}
+\definecolor{segfucsia}{HTML}{B12C8E}
+\definecolor{segyellow}{HTML}{FDD491}
+\definecolor{segsalmon}{HTML}{E9AE87}
+\definecolor{iscoreblue}{HTML}{18B6D4}
+\definecolor{iscoreyellow}{HTML}{FFDE09}
+
+%------------------------------------------------------------------------------
+%                         LISTINGS
+%------------------------------------------------------------------------------
+\usepackage{minted}
+%\usemintedstyle{tango}
+
+%------------------------------------------------------------------------------
+%                         FRAMES
+%------------------------------------------------------------------------------
+\fboxsep=5mm  %padding thickness
+
+%------------------------------------------------------------------------------
+%                          TIKZ
+%------------------------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{
+  arrows,
+  positioning,
+  petri,
+  shadows,
+  backgrounds,
+  calc
+}
+
+\tikzset{
+  place/.style={
+    circle,
+    thick,
+    draw,
+    minimum size=6mm,
+  },
+  transition/.style={
+    rectangle,
+    thick,
+    draw=black!75,
+    fill=black!20,
+    minimum size=5mm,
+  },
+  inline/.style={
+    sloped,
+    anchor=south,
+    auto=false,
+    font=\scriptsize\bfseries\ttfamily,
+  },
+  twolines/.style ={
+    text width=#1,
+    align=center,
+    execute at begin node=\setlength{\baselineskip}{1mm}
+  },
+  arrowLabel/.style = {
+    font=\tiny\ttfamily,
+    inline,
+    yshift=-1mm,
+  },
+  % arrows
+  >=stealth',
+  auto,
+}
+
+% \place[configuration]{label}{number of tokens}
+\newcommand{\place}[3][]{%
+  \node [place,tokens=#3] (#2) [#1] {};
+}
+
+% \transition[configuration]{label}{pre place}{post place}{condition}
+\newcommand{\transition}[5][]{%
+    \node [transition,font=\scriptsize] (#2) [#1] {\texttt{\textbf{#5}}}
+    edge [pre]  (#3)
+    edge [post] (#4);
+}
+
+% \labelTrans[xshift, position, transition id, label]
+\newcommand{\labelTrans}[4][0]{%
+  \node [font=\scriptsize\ttfamily,#2 = 2mm of #3.center, xshift=#1] {$\mathtt{#4}$};
+}
+
+% \labelPlace{position}{place id}{label}
+\newcommand{\labelPlace}[3]{%
+  \node [font=\footnotesize,#1 = 2.4mm of #2.center] {#3};
+}
+
+\newenvironment{petri}%
+{\begin{tikzpicture}[semithick, node distance=1.3cm, bend angle=45]}%
+{\end{tikzpicture}}
+
+\newcommand{\eventIscore}{%
+  \tikz[baseline=-0.6ex]{%
+    \draw[white,fill=iscoreblue] (0,0) circle (1mm);%
+}}
+
+\newcommand{\stateIscore}{%
+  \tikz[baseline=-0.6ex]{%
+    \draw[white,fill=iscoreblue] (0,0) circle (0.8mm);%
+    \draw[line width=0.2mm] (0,0) circle (1.2mm);%
+}}
+
+\newcommand{\stateIscoreColor}[1]{%
+  \tikz[baseline=-0.6ex]{%
+    \draw[white,fill=#1] (0,0) circle (0.8mm);%
+    \draw[line width=0.2mm, #1] (0,0) circle (1.2mm);%
+}}
+
+\newcommand{\interactionIscore}{%
+  \tikz[baseline=-1.1ex]{%
+    \draw[line width=0.4mm, iscoreyellow] (0,0) -- ++(2mm,0);
+    \draw[line width=0.4mm, iscoreyellow] (1mm,0) -- ++(0,-2.3mm);
+    \fill[iscoreyellow] (0.3mm,-0.8mm) -- (1.7mm,-0.8mm) -- (1mm,-1.8mm);
+}}
+
+
+\newcommand{\conditionIscore}{%
+  \tikz[baseline=-1.1ex]{%
+    \draw[line width=0.4mm,iscoreyellow] (0,0) arc (50:310:1.2mm);%
+    \draw[white,fill=iscoreblue] (-0.7mm,-0.9mm) circle (.6mm);%
+    \fill[iscoreyellow] (0.5mm,-1.9mm) -- (0.5mm,0.1mm) -- (1.1mm,-0.9mm);
+}}
+
+
+\newcommand{\constraintIscore}{%
+  \tikz[baseline=-1.2ex]{%
+    \draw[line width=0.4mm,iscoreblue] (6mm,0) arc (90:270:1.1mm);%
+    \draw[line width=0.4mm,iscoreblue] (1cm,-2.2mm) arc (270:450:1.1mm);%
+    \draw[line width=0.4mm,iscoreblue] (0,-1.1mm) -- ++(5mm,0);%
+    \draw[line width=0.4mm,iscoreblue,dashed] (5mm,-1.1mm) -- ++(6mm,0);%
+}}
