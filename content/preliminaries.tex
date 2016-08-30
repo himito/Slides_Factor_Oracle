@@ -1,0 +1,87 @@
+\begin{frame}{Preliminaries}
+  \begin{block}{Word}
+    A \alert{word} $s$ is a finite sequence $s=s_{1}s_{2}\dots{}s_{m}$
+    of length $|s|=m$ on a finite alphabet $\Sigma$.
+    \begin{center}
+      \begin{tikzpicture}
+        \foreach \w [count=\i from 0] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \node[Word] (symbol \i) at (\x,0) {\w};
+        }
+        \node (s) at (-0.6,0) {$s=$};
+      \end{tikzpicture}
+    \end{center}
+  \end{block}
+
+  \begin{block}{Factor}
+    A word $x \in \Sigma^{*}$ is a \alert{factor} of $s$ if and only
+    if $s$ can be written $s=uxv$ with $u, v \in \Sigma^{*}$. Given
+    integers $i,j$ where $1 \leq i \leq j \leq m$, we denote a
+    \emph{factor} of \emph{s} as $s[i\dots{j}] =
+    s_{i}s_{i+1}\dots{}s_{j}$.
+    \begin{center}
+      \begin{tikzpicture}
+        \def\min{3}
+        \def\max{5}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i>=\min &&\i<=\max?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\w};
+        }
+
+        \node (s) at (-0.1,0) {$s=$};
+        \draw [thick, decorate, decoration={brace,amplitude=5pt,mirror, raise=10pt}] (symbol \min.west) -- node[midway,font=\small,below=0.5cm] {$s[\min,\max]$} (symbol \max.east);
+      \end{tikzpicture}
+    \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Preliminaries}
+  \begin{block}{Prefix}
+    A factor $x$ of $s$ is a \alert{prefix} of $s$ if $s=xu$ with $u
+    \in \Sigma^{*}$. The $i$th \emph{prefix} of $s$, denoted
+    $pref_{s}(i)$, is the prefix $s[1\dots{}i]$.
+    \begin{center}
+      \begin{tikzpicture}
+        \def\min{1}
+        \def\max{4}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i>=\min &&\i<=\max?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\w};
+        }
+
+        \node (s) at (-0.1,0) {$s=$};
+        \draw [thick, decorate, decoration={brace,amplitude=5pt,mirror, raise=10pt}] (symbol \min.west) -- node[midway,font=\small,below=0.5cm] {$pref_{s}(\max)$} (symbol \max.east);
+      \end{tikzpicture}
+    \end{center}
+  \end{block}
+
+  \begin{block}{Suffix}
+    A factor $x$ of $s$ is a \alert{suffix} of $s$ if $s=ux$ with $u
+    \in \Sigma^{*}$. The $i$th \emph{suffix} of $s$, denoted
+    $suff_{s}(i)$, is the suffix $s[i\dots{}m]$.
+    \begin{center}
+      \begin{tikzpicture}
+        \def\min{6}
+        \def\max{11}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i>=\min &&\i<=\max?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\w};
+        }
+
+        \node (s) at (-0.1,0) {$s=$};
+        \draw [thick, decorate, decoration={brace,amplitude=5pt,mirror, raise=10pt}] (symbol \min.west) -- node[midway,font=\small,below=0.5cm] {$suff_{s}(\min)$} (symbol \max.east);
+      \end{tikzpicture}
+    \end{center}
+  \end{block}
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../slides"
+%%% End:
