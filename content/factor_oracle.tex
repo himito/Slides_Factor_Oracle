@@ -1,28 +1,41 @@
 \begin{frame}{Factor Oracle}
   \begin{center}
     \begin{tikzpicture}
-      \node[state] (s0)   {0};
+      \begin{scope}
+        \node[state] (s0)   {0};
 
-      % internal transitions
-      \foreach \dest/\sym [remember=\dest as \src (initially 0)] in {1/a,2/b,3/b,4/c,5/a,6/b,7/c,8/d,9/a,10/b,11/c} {
-        \node[state, right of = s\src]  (s\dest)   {\dest};
-        \path (s\src) edge [trans] node [font=\scriptsize, above,
-        yshift=-1mm, xshift=-1mm] {\sym} (s\dest);
-      }
+        % internal transitions
+        \foreach \dest/\sym/\lrs [remember=\dest as \src (initially 0)] in {1/a/0,2/b/0,3/b/1,4/c/0,5/a/1,6/b/2,7/c/2,8/d/0,9/a/1,10/b/2,11/c/2} {
+          \node[state, right of = s\src]  (s\dest)   {\dest};
 
-      % forwards transitions
-      \foreach \src/\dest/\sym in {0/2/b, 2/4/c, 0/4/c, 4/8/d, 0/8/d} {
-        \path (s\src) edge [trans, bend left=40] node
-        [font=\scriptsize,above, pos=1] {\sym} (s\dest);
-      }
+          \path (s\src) edge [trans] node [font=\scriptsize, above,
+          yshift=-1mm, xshift=-1mm, pos=0.7, ballblue] {\sym} (s\dest);
 
-      % suffix links
-      \foreach \src/\dest in {1/0, 2/0, 3/2, 4/0, 5/1, 6/2, 7/4, 8/0,
-        9/1, 10/2, 11/4} {
-        \path (s\src) edge [trans, dashed, draw=gray, bend left] (s\dest);
-      }
-    \end{tikzpicture}
-  \end{center}
+          % lrs
+          \node[right of = s\dest,node distance =
+          3.5mm,font=\scriptsize, yshift=-1.5mm, antiquefuchsia] {\lrs};
+        }
+
+        % forwards transitions
+        \foreach \src/\dest/\sym in {0/2/b, 2/4/c, 0/4/c, 4/8/d, 0/8/d} {
+          \path (s\src) edge [trans, bend right=40] node
+          [font=\scriptsize,below, pos=1, ballblue] {\sym} (s\dest);
+        }
+
+        % suffix links
+        \foreach \src/\dest in {1/0, 2/0, 3/2, 4/0, 5/1, 6/2, 7/4, 8/0,
+          9/1, 10/2, 11/4} {
+          \path (s\src) edge [trans, dashed, draw=gray, bend right] (s\dest);
+        }
+    \end{scope}
+
+    \begin{scope}[xshift=7.5cm, yshift=-1cm]
+      \draw[trans,thick] (0,0) -- ++(1,0) node [anchor=west] {Forward
+ Links};
+      \draw[trans,thick,gray, dashed] (0,-0.5cm) -- ++(1,0) node [anchor=west] {Suffix Links};
+    \end{scope}
+  \end{tikzpicture}
+\end{center}
 
 
 \end{frame}
