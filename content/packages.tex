@@ -36,6 +36,7 @@
   shadows,
   backgrounds,
   calc,
+  automata,
   decorations,
   decorations.pathreplacing
 }
@@ -50,6 +51,19 @@ text=black,
 minimum width=0.55 cm,
 minimum height=0.55cm,
 ]
+
+\tikzstyle{every state}=[
+draw,
+font=\scriptsize,
+inner sep=0,
+outer sep=0,
+% node distance=0cm,
+minimum width=0.5 cm,
+minimum height=0.5 cm,
+semithick
+]
+
+\tikzstyle{trans}=[->,>=stealth',shorten >=1pt, semithick, auto]
 
 %------------------------------------------------------------------------------
 %                          CONDITIONALS

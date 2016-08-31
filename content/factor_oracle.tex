@@ -1,7 +1,31 @@
 \begin{frame}{Factor Oracle}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[state] (s0)   {0};
+
+      % internal transitions
+      \foreach \dest/\sym [remember=\dest as \src (initially 0)] in {1/a,2/b,3/b,4/c,5/a,6/b,7/c,8/d,9/a,10/b,11/c} {
+        \node[state, right of = s\src]  (s\dest)   {\dest};
+        \path (s\src) edge [trans] node [font=\scriptsize, above,
+        yshift=-1mm, xshift=-1mm] {\sym} (s\dest);
+      }
+
+      % forwards transitions
+      \foreach \src/\dest/\sym in {0/2/b, 2/4/c, 0/4/c, 4/8/d, 0/8/d} {
+        \path (s\src) edge [trans, bend left=40] node
+        [font=\scriptsize,above, pos=1] {\sym} (s\dest);
+      }
+
+      % suffix links
+      \foreach \src/\dest in {1/0, 2/0, 3/2, 4/0, 5/1, 6/2, 7/4, 8/0,
+        9/1, 10/2, 11/4} {
+        \path (s\src) edge [trans, dashed, draw=gray, bend left] (s\dest);
+      }
+    \end{tikzpicture}
+  \end{center}
+
 
 \end{frame}
-
 
 %%% Local Variables:
 %%% mode: latex
