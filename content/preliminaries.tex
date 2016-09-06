@@ -6,7 +6,7 @@
       \begin{tikzpicture}
         \foreach \w [count=\i from 0] in {a,b,b,c,a,b,c,d,a,b,c}  {
           \pgfmathsetmacro{\x}{\i*0.55}
-          \node[Word] (symbol \i) at (\x,0) {\w};
+          \node[Word] (symbol \i) at (\x,0) {\texttt{\w}};
         }
         \node (s) at (-0.6,0) {$s=$};
       \end{tikzpicture}
@@ -27,7 +27,7 @@
           \pgfmathsetmacro{\x}{\i*0.55}
           \pgfmathparse{\i>=\min &&\i<=\max?1:0}
           \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
-          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\w};
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
         }
 
         \node (s) at (-0.1,0) {$s=$};
@@ -50,7 +50,7 @@
           \pgfmathsetmacro{\x}{\i*0.55}
           \pgfmathparse{\i>=\min &&\i<=\max?1:0}
           \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
-          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\w};
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
         }
 
         \node (s) at (-0.1,0) {$s=$};
@@ -71,7 +71,7 @@
           \pgfmathsetmacro{\x}{\i*0.55}
           \pgfmathparse{\i>=\min &&\i<=\max?1:0}
           \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
-          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\w};
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
         }
 
         \node (s) at (-0.1,0) {$s=$};
@@ -79,6 +79,29 @@
       \end{tikzpicture}
     \end{center}
   \end{block}
+\end{frame}
+
+\begin{frame}{Preliminaries}
+  \begin{block}{Longest Repeated Suffix (LRS)}
+    A factor $x$ of $s$ is the \alert{longest repeated suffix} of $s$
+    if $x$ is a suffix of $s$ and $|x|$ is maximal.
+    \begin{center}
+      \begin{tikzpicture}
+        \def\min{5}
+        \def\max{7}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i>=\min &&\i<=\max?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
+        }
+
+        \node (s) at (-0.1,0) {$s=$};
+        \draw [thick, decorate, decoration={brace,amplitude=5pt,mirror, raise=10pt}] (symbol \min.west) -- node[midway,font=\small,below=0.5cm] {$lrs(s)$} (symbol \max.east);
+      \end{tikzpicture}
+    \end{center}
+  \end{block}
+
 \end{frame}
 
 %%% Local Variables:
