@@ -1,4 +1,5 @@
 \begin{frame}{Factor Oracle}
+  \framesubtitle{Overview}
   \begin{center}
     \begin{tikzpicture}
       \begin{scope}
@@ -58,6 +59,7 @@
 
 
 \begin{frame}{Factor Oracle}
+  \framesubtitle{Overview}
   \begin{center}
     \begin{tikzpicture}
       \begin{scope}
@@ -98,7 +100,6 @@
           \end{pgfonlayer}
         }
       \end{scope}
-
     \end{tikzpicture}
 \end{center}
 
@@ -110,6 +111,110 @@
   \end{itemize}
 \end{block}
 \end{frame}
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \caption{Construction of a Factor Oracle}\label{alg:fo}
+    \begin{algorithmic}[1]
+      \Function{FactorOracle}{$p=p_{1}p_{2}\dots{}p_{m}$}
+      \State Create a new oracle $P$ with an initial state 0
+      \State $S_{P}(0) \gets -1$
+      \For{$i \gets 1, m$}
+      \State $Oracle(p=p_{1}p_{2}\dots{}p_{i}) \gets$
+      AddLetter($Oracle(p=p_{1}p_{2}\dots{}p_{i-1}), p_{i}$)
+      \EndFor
+      \State  \textbf{return} $Oracle(p=p_{1}p_{2}\dots{}p_{m})$
+      \EndFunction
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \caption{Incremental update of Factor Oracle}\label{alg:addletter}
+    \begin{algorithmic}[1]
+      \Function{AddLetter}{$Oracle(p=p_{1},p_{2}\dots{}p_{m}), \sigma$}
+      \State Create state $m+1$
+      \State Create a new transition from $m$ to $m+1$ labeled by
+      $\sigma$ \Comment{$\delta(m,\sigma) = m+1$}
+      \State $k \gets S_{p}(m)$
+      \State $i \gets m$
+      \While {$k > -1$ and there is no transition from $k$ by
+        $\sigma$}
+      \State Create a new transition from $k$ to $m+1$ by $\sigma$  \Comment{$\delta(k,\sigma) = m+1$}
+      \State $i \gets k$
+      \State $k \gets S_{p}(k)$
+      \EndWhile
+      \If {$k = -1$}
+      \State $S_{p\sigma} \gets 0$
+      \State $lrs_{p\sigma} \gets 0$
+      \Else
+      \State $S_{p\sigma}\gets $ state that leads the transition
+      from $k$ by $\sigma$
+      \State $lrs_{p\sigma} \gets $ LengthCommonSuffix($i,S(m+1)-1$) + 1
+      \EndIf
+      \algstore{bkbreak}
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \caption{Incremental update of Factor Oracle}
+    \begin{algorithmic}[1]
+      \algrestore{bkbreak}
+      \State $k \gets $ FindBetter($m+1, p[m+1-lrs(m+1)]$)
+      \If {$k \neq 0$}
+      \State $lrs_{p\sigma} \gets lrs(m+1) +1$
+      \State $S_{p\sigma} \gets k$
+      \EndIf
+      \State $T(S_{p\sigma}) \gets T(S(m+1) \cup \{i\})$
+      \State \textbf{return} $Oracle(p=p_{1}p_{2}\dots{}p_{m}\sigma)$
+      \EndFunction
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \caption{Find Better Algorithm}\label{alg:fb}
+    \begin{algorithmic}[1]
+      \Function{FindBetter}{$i, a$}
+      \For {all the elements $j$ of $T(i)$ in increasing order}
+      \If {$lrs(j) = lrs(i)$ and $p[j-lrs(i)] = a$}
+      \State \textbf{return} j
+      \EndIf
+      \EndFor
+      \State \textbf{return} 0
+      \EndFunction
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \caption{Length Common Suffix Algorithm}\label{alg:lcs}
+    \begin{algorithmic}[1]
+      \Function{LengthCommonSuffix}{$i,j$}
+      \If {$S(i) = j$}
+      \State \textbf{return} $lrs(i)$
+      \Else
+      \While {$S(i) \neq S(j)$}
+      \State $j \gets S(j)$
+      \EndWhile
+      \EndIf
+      \State \textbf{return} $min(lrs(i),lrs(j))$
+      \EndFunction
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
 
 %%% Local Variables:
 %%% mode: latex
