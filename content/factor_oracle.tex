@@ -153,7 +153,8 @@
     \begin{algorithmic}[1]
       \Function{AddLetter}{$Oracle(p=p_{1},p_{2}\dots{}p_{m}),\sigma$}
 
-      \only<1-4,9-11,19-21,26-28>{%
+      \only<1-4,9-11,19-21,26-28, 39-41, 46-48, 53-55, 60-62, 73-75,
+      80-82, 87-89>{%
         \State Create state $m+1$
         \State Create a new transition from $m$ to $m+1$ labeled by
         $\sigma$ \Comment{$\delta(m,\sigma) = m+1$}
@@ -162,7 +163,7 @@
         \State $\dots$
       }
 
-      \only<5,12-15,22,29-35>{%
+      \only<5,12-15,22,29-35, 42, 49, 56, 63-69, 76, 83, 90>{%
         \State $\dots$
         \While {$k > -1$ and there is no transition from $k$ by
           $\sigma$}
@@ -174,7 +175,8 @@
       }
 
 
-      \only<6-8,16-18,23-25,36-38>{
+      \only<6-8,16-18,23-25,36-38, 43-45, 50-52, 57-59, 70-72, 77-79,
+      84-86, 91-93>{
         \State $\dots$
         \If {$k = -1$}
         \State $S_{p\sigma} \gets 0$
@@ -203,17 +205,23 @@
   % ------------------------------- EXAMPLE ! -------------------------------
   \begin{center}
     \begin{tikzpicture}
+      \def\final{93}% final slide
+
       \begin{scope}
-        \visible<2->{
+
+        \visible<2-\final>{
           \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
             \pgfmathsetmacro{\x}{\i*0.55}
             \node[Word] (symbol \i) at (\x,0) {\texttt{\w}};
           }
           \node (s) at (-0.1,0) {$p=$};
         }
+
         \begin{pgfonlayer}{background}
           % current symbol
-          \foreach \i/\f [count=\n from 1] in {2/8,9/18,19/25,26/38}  {
+          \foreach \i/\f [count=\n from 1] in
+          {2/8,9/18,19/25,26/38,39/45,46/52, 53/59, 60/72, 73/79,
+            80/86, 87/93}  {
             \visible<\i-\f>{\node[Word,white,fill=orange!50] at (symbol \n) {};}
           }
         \end{pgfonlayer}
@@ -221,11 +229,13 @@
       \end{scope}
 
       \begin{scope}[yshift=-1.5cm]
-        \visible<2->{\node[state] (s0) {0};}
+
+        %initial state
+        \visible<2-\final>{\node[state] (s0) {0};}
 
         % forward internal link
-        \foreach \dest/\sym/\slide [remember=\dest as \src (initially 0)] in {1/a/3,2/b/10,3/b/20,4/c/27}{%,5/a/27,6/b/33,7/c/39,8/d/45,9/a/51,10/b/57,11/c/63} {
-          \visible<\slide->{
+        \foreach \sym/\slide [count=\src from 0, count=\dest from 1] in {a/3,b/10,b/20,c/27,a/40,b/47,c/54,d/61,a/74,b/81,c/88} {
+          \visible<\slide-\final>{
             \node[state, right of = s\src]  (s\dest)   {\dest};
             \path (s\src) edge [trans] node [font=\scriptsize, above,
             yshift=-1mm, xshift=-1mm, pos=0.7, ballblue] {\texttt{\sym}} (s\dest);
@@ -233,22 +243,24 @@
         }
 
         % forward external link
-        \foreach \src/\dest/\sym/\slide in {0/2/b/13, 2/4/c/30, 0/4/c/33}{
-          \visible<\slide->{
+        \foreach \src/\dest/\sym/\slide in {0/2/b/13, 2/4/c/30,
+          0/4/c/33, 4/8/d/64, 0/8/d/67}{
+          \visible<\slide-\final>{
             \path (s\src) edge [trans, bend right=40] node
             [font=\scriptsize,below, pos=1, ballblue] {\sym} (s\dest);
           }
         }
 
         % Suffix link
-        \foreach \src/\dest/\slide in {1/0/7,2/0/17,3/2/24, 4/0/37} {
-          \visible<\slide->{\path (s\src) edge [trans, dashed, draw=gray, bend right] (s\dest);}
+        \foreach \src/\dest/\slide in {1/0/7,2/0/17,3/2/24, 4/0/37,
+          5/1/44, 6/2/51, 7/4/58, 8/0/71, 9/1/78, 10/2/85, 11/4/92} {
+          \visible<\slide-\final>{\path (s\src) edge [trans, dashed, draw=gray, bend right] (s\dest);}
         }
 
         % lrs
         \foreach \lrs/\slide [count=\s from 0] in {0/2, 0/8, 0/18,
-          1/25, 0/38} {
-          \visible<\slide->{
+          1/25, 0/38, 1/45, 2/52, 2/59, 0/72, 1/79, 2/93} {
+          \visible<\slide-\final>{
             \node[right of = s\s, node distance = 3.5mm,font=\scriptsize, yshift=-1.5mm, antiquefuchsia] {\lrs};
           }
         }
@@ -260,13 +272,14 @@
 
         % m
         \foreach \slideI/\slideF [count=\m from 0] in {2/8, 9/18,
-          19/25, 26/38} {
+          19/25, 26/38, 39/45, 46/52, 53/59, 60/72, 73/79, 80/86, 87/93} {
           \visible<\slideI-\slideF>{\node (m) {$m = \m$};}
         }
 
         % k
         \foreach \k/\slideI/\slideF in {-1/4/8, 0/11/14, -1/15/18,
-          0/21/25, 2/28/31, 0/32/34, -1/35/38} {
+          0/21/25, 2/28/31, 0/32/34, -1/35/38, 0/41/45, 1/48/52,
+          2/55/59, 4/62/65, 0/66/68, -1/69/72, 0/75/79, 1/82/86, 2/89/93} {
           \visible<\slideI-\slideF>{
             \node[right = 0.5mm of m] (k) {$k = \k$};
           }
@@ -274,22 +287,24 @@
 
         % pi
         \foreach \p/\slideI/\slideF in {0/4/8, 1/11/13, 0/14/18,
-          2/21/25, 3/28/30, 2/31/33, 0/34/38} {
+          2/21/25, 3/28/30, 2/31/33, 0/34/38, 4/41/45, 5/48/52,
+          6/55/59, 7/62/64, 4/65/67, 0/68/72, 8/75/79, 9/82/86, 10/89/93} {
           \visible<\slideI-\slideF>{
             \node[right = 0.5mm of k] (p) {$\pi_{1} = \p$};
           }
         }
 
         % lcs
-        \foreach \pone/\ptwo/\r/\slideI/\slideF in {2/1/0/25/25} {
-          \visible<\slideI-\slideF>{
+        \foreach \pone/\ptwo/\r/\slide in {2/1/0/25,
+          4/0/0/45, 5/1/1/52, 6/3/1/59, 8/0/0/79, 9/1/1/86, 10/3/1/93} {
+          \visible<\slide>{
             \node[below = 0.5mm of k] (lcs) {$lcs(\pone,\ptwo) = \r$};
           }
         }
       \end{scope}
 
       \begin{scope}[xshift=10cm, yshift=-2cm]
-        \foreach \i in {1,...,40} {
+        \foreach \i in {1,...,\final} {
           \only<\i>{\node {slide \i};}
         }
       \end{scope}
