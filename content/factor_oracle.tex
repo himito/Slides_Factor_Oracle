@@ -140,11 +140,11 @@
       \State Create a new transition from $m$ to $m+1$ labeled by
       $\sigma$ \Comment{$\delta(m,\sigma) = m+1$}
       \State $k \gets S_{p}(m)$
-      \State $i \gets m$
+      \State $\pi_{1} \gets m$
       \While {$k > -1$ and there is no transition from $k$ by
         $\sigma$}
       \State Create a new transition from $k$ to $m+1$ by $\sigma$  \Comment{$\delta(k,\sigma) = m+1$}
-      \State $i \gets k$
+      \State $\pi_{1} \gets k$
       \State $k \gets S_{p}(k)$
       \EndWhile
       \If {$k = -1$}
@@ -153,7 +153,7 @@
       \Else
       \State $S_{p\sigma}\gets $ state that leads the transition
       from $k$ by $\sigma$
-      \State $lrs_{p\sigma} \gets $ LengthCommonSuffix($i,S(m+1)-1$) + 1
+      \State $lrs_{p\sigma} \gets $ LengthCommonSuffix($\pi_{1},S(m+1)-1$) + 1
       \EndIf
       \algstore{bkbreak}
     \end{algorithmic}
@@ -172,7 +172,7 @@
       \State $lrs_{p\sigma} \gets lrs(m+1) +1$
       \State $S_{p\sigma} \gets k$
       \EndIf
-      \State $T(S_{p\sigma}) \gets T(S(m+1) \cup \{i\})$
+      \State $T(S_{p\sigma}) \gets T(S(m+1)) \cup \{m+1\}$
       \State \textbf{return} $Oracle(p=p_{1}p_{2}\dots{}p_{m}\sigma)$
       \EndFunction
     \end{algorithmic}
@@ -185,7 +185,7 @@
     \caption{Find Better Algorithm}\label{alg:fb}
     \begin{algorithmic}[1]
       \Function{FindBetter}{$i, a$}
-      \For {all the elements $j$ of $T(i)$ in increasing order}
+      \For {all the elements $j$ of $T(\alt<2>{\alert{S(i)}}{i})$ in increasing order}
       \If {$lrs(j) = lrs(i)$ and $p[j-lrs(i)] = a$}
       \State \textbf{return} j
       \EndIf
@@ -201,15 +201,15 @@
   \begin{algorithm}[H]
     \caption{Length Common Suffix Algorithm}\label{alg:lcs}
     \begin{algorithmic}[1]
-      \Function{LengthCommonSuffix}{$i,j$}
-      \If {$S(i) = j$}
-      \State \textbf{return} $lrs(i)$
+      \Function{LengthCommonSuffix}{$\pi_{1},\pi_{2}$}
+      \If {$S(\pi_{1}) = \pi_{2}$}
+      \State \textbf{return} $lrs(\pi_{1})$
       \Else
-      \While {$S(i) \neq S(j)$}
-      \State $j \gets S(j)$
+      \While {$S(\pi_{1}) \neq S(\pi_{2})$}
+      \State $\pi_{2} \gets S(\pi_{2})$
       \EndWhile
       \EndIf
-      \State \textbf{return} $min(lrs(i),lrs(j))$
+      \State \textbf{return} $min(lrs(\pi_{1}),lrs(\pi_{2}))$
       \EndFunction
     \end{algorithmic}
   \end{algorithm}
