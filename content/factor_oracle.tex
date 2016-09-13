@@ -114,8 +114,7 @@
 
 \begin{frame}[fragile]{Factor Oracle}
   \framesubtitle{Algorithm}
-  \begin{algorithm}[H]
-    \caption{Construction of a Factor Oracle}\label{alg:fo}
+  \begin{algorithm}[H] \caption{Construction of a Factor Oracle}\label{alg:fo}
     \begin{algorithmic}[1]
       \Function{FactorOracle}{$p=p_{1}p_{2}\dots{}p_{m}$}
       \State Create a new oracle $P$ with an initial state 0
@@ -128,6 +127,23 @@
       \EndFunction
     \end{algorithmic}
   \end{algorithm}
+
+  % EXAMPLE !
+  \begin{center}
+    \begin{tikzpicture}
+      \visible<2->{
+      \begin{scope}
+        \foreach \w [count=\i from 0] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \node[Word] (symbol \i) at (\x,0) {\texttt{\w}};
+        }
+        \node (s) at (-0.6,0) {$p=$};
+      \end{scope}}
+      \begin{scope}[yshift=-1.5cm]
+        \visible<3->{\node[state] (s0) {0};}
+      \end{scope}
+    \end{tikzpicture}
+  \end{center}
 \end{frame}
 
 \begin{frame}[fragile]{Factor Oracle}
@@ -141,12 +157,106 @@
       $\sigma$ \Comment{$\delta(m,\sigma) = m+1$}
       \State $k \gets S_{p}(m)$
       \State $\pi_{1} \gets m$
+      \algstore{bkbreak}
+    \end{algorithmic}
+  \end{algorithm}
+
+
+  % EXAMPLE !
+  \begin{center}
+    \begin{tikzpicture}
+      % \visible<2->{
+      \begin{scope}
+        \def\selected{1}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i==\selected?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
+        }
+        \node (s) at (-0.1,0) {$p=$};
+      \end{scope}
+      % }
+      % \visible<2->{
+        \begin{scope}[yshift=-1.5cm]
+          \node[state] (s0) {0};
+
+          % first iteration
+          \node[state, right of = s0]  (s1)   {1};
+          \path (s0) edge [trans] node [font=\scriptsize, above,
+          yshift=-1mm, xshift=-1mm, pos=0.7, ballblue] {\texttt{a}} (s1);
+        \end{scope}
+        % }
+
+        \begin{scope}[yshift=-1cm, xshift=2.2cm]
+          \node (m) {$m = 0$};
+          \node[below = 0.3mm of m] (k) {$k = -1$};
+          \node[below = 0.3mm of k] {$\pi_{1} = 0$};
+        \end{scope}
+      \end{tikzpicture}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \ContinuedFloat
+    \caption{Incremental update of Factor Oracle}
+    \begin{algorithmic}[1]
+      \algrestore{bkbreak}
       \While {$k > -1$ and there is no transition from $k$ by
         $\sigma$}
       \State Create a new transition from $k$ to $m+1$ by $\sigma$  \Comment{$\delta(k,\sigma) = m+1$}
       \State $\pi_{1} \gets k$
       \State $k \gets S_{p}(k)$
       \EndWhile
+      \algstore{bkbreak}
+    \end{algorithmic}
+  \end{algorithm}
+
+  % EXAMPLE !
+  \begin{center}
+    \begin{tikzpicture}
+      % \visible<2->{
+      \begin{scope}
+        \def\selected{1}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i==\selected?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
+        }
+        \node (s) at (-0.1,0) {$p=$};
+      \end{scope}
+      % }
+      % \visible<2->{
+        \begin{scope}[yshift=-1.5cm]
+          \node[state] (s0) {0};
+
+          % first iteration
+          \node[state, right of = s0]  (s1)   {1};
+          \path (s0) edge [trans] node [font=\scriptsize, above,
+          yshift=-1mm, xshift=-1mm, pos=0.7, ballblue] {\texttt{a}} (s1);
+        \end{scope}
+        % }
+
+        \begin{scope}[yshift=-1cm, xshift=2.2cm]
+          \node (m) {$m = 0$};
+          \node[below = 0.3mm of m] (k) {$k = -1$};
+          \node[below = 0.3mm of k] {$\pi_{1} = 0$};
+        \end{scope}
+      \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm}
+  \begin{algorithm}[H]
+    \ContinuedFloat
+    \caption{Incremental update of Factor Oracle}
+    \begin{algorithmic}[1]
+      \algrestore{bkbreak}
       \If {$k = -1$}
       \State $S_{p\sigma} \gets 0$
       \State $lrs_{p\sigma} \gets 0$
@@ -158,12 +268,56 @@
       \algstore{bkbreak}
     \end{algorithmic}
   \end{algorithm}
+
+  % EXAMPLE !
+  \begin{center}
+    \begin{tikzpicture}
+      % \visible<2->{
+      \begin{scope}
+        \def\selected{1}
+        \foreach \w [count=\i from 1] in {a,b,b,c,a,b,c,d,a,b,c}  {
+          \pgfmathsetmacro{\x}{\i*0.55}
+          \pgfmathparse{\i==\selected?1:0}
+          \ifnum\pgfmathresult>0\relax\def\mytestcolor{orange!50}\else\def\mytestcolor{none}\fi
+          \node[Word,fill=\mytestcolor] (symbol \i) at (\x,0) {\texttt{\w}};
+        }
+        \node (s) at (-0.1,0) {$p=$};
+      \end{scope}
+      % }
+      % \visible<2->{
+        \begin{scope}[yshift=-1.5cm]
+          \node[state] (s0) {0};
+
+          % first iteration
+          \node[state, right of = s0]  (s1)   {1};
+          \path (s0) edge [trans] node [font=\scriptsize, above,
+          yshift=-1mm, xshift=-1mm, pos=0.7, ballblue] {\texttt{a}}
+          (s1);
+
+          % Suffix link
+          \path (s1) edge [trans, dashed, draw=gray, bend right] (s0);
+
+          % lrs
+          \node[right of = s1,node distance =
+          3.5mm,font=\scriptsize, yshift=-1.5mm, antiquefuchsia] {0};
+        \end{scope}
+        % }
+
+        \begin{scope}[yshift=-1cm, xshift=2.2cm]
+          \node (m) {$m = 0$};
+          \node[below = 0.3mm of m] (k) {$k = -1$};
+          \node[below = 0.3mm of k] {$\pi_{1} = 0$};
+        \end{scope}
+      \end{tikzpicture}
+  \end{center}
+
 \end{frame}
 
 
 \begin{frame}[fragile]{Factor Oracle}
   \framesubtitle{Algorithm}
   \begin{algorithm}[H]
+    \ContinuedFloat
     \caption{Incremental update of Factor Oracle}
     \begin{algorithmic}[1]
       \algrestore{bkbreak}

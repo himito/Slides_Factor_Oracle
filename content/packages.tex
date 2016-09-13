@@ -8,7 +8,7 @@
 %------------------------------------------------------------------------------
 %                         MULTIMEDIA
 %------------------------------------------------------------------------------
-\usepackage{media9}
+% \usepackage{media9}
 
 %------------------------------------------------------------------------------
 %                         COLORS
@@ -17,16 +17,6 @@
 \definecolor{antiquefuchsia}{rgb}{0.57, 0.36, 0.51}
 \definecolor{ballblue}{rgb}{0.13, 0.67, 0.8}
 \definecolor{arylideyellow}{rgb}{0.91, 0.84, 0.42}
-
-%------------------------------------------------------------------------------
-%                         LISTINGS
-%------------------------------------------------------------------------------
-% \usepackage{minted}
-% \usemintedstyle{tango}
-\usepackage{algorithm,algpseudocode}
-\makeatletter
-\algrenewcommand\ALG@beginalgorithmic{\footnotesize}
-\makeatother
 
 
 %------------------------------------------------------------------------------
@@ -46,7 +36,8 @@
   calc,
   automata,
   decorations,
-  decorations.pathreplacing
+  decorations.pathreplacing,
+  fit
 }
 
 \tikzstyle{Word} = [
@@ -77,3 +68,14 @@ semithick
 %                          CONDITIONALS
 %------------------------------------------------------------------------------
 \usepackage{ifthen}
+
+%------------------------------------------------------------------------------
+%                         LISTINGS
+%------------------------------------------------------------------------------
+% \usepackage{minted}
+% \usemintedstyle{tango}
+\usepackage{algorithm,algpseudocode}
+\makeatletter
+\algrenewcommand\ALG@beginalgorithmic{\footnotesize}
+\makeatother
+\resetcounteronoverlays{algorithm} % Making algorithm2e environments “overlay aware” in beamer
