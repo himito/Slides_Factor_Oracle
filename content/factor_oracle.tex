@@ -148,6 +148,9 @@
 
 \begin{frame}[fragile]{Factor Oracle}
   \framesubtitle{Algorithm}
+  \vspace{-0.5cm}
+  \begin{minipage}[t][4.5cm][t]{\textwidth}
+
   \begin{algorithm}[H]
     \caption{Incremental update of Factor Oracle}\label{alg:addletter}
     \begin{algorithmic}[1]
@@ -175,12 +178,22 @@
       }
 
 
-      \only<6-8,16-18,23-25,36-38, 43-45, 50-52, 57-59, 70-72, 77-79,
-      84-86, 91-93>{
+      \only<6-8,16-18,36-38,70-72>{
         \State $\dots$
         \If {$k = -1$}
         \State $S_{p\sigma} \gets 0$
         \State $lrs_{p\sigma} \gets 0$
+        \Else
+        \State $\dots$
+        \EndIf
+        \State $\dots$
+      }
+
+      \only<23-25,43-45, 50-52, 57-59,77-79,
+      84-86, 91-93>{
+        \State $\dots$
+        \If {$k = -1$}
+        \State $\dots$
         \Else
         \State $S_{p\sigma}\gets $ state that leads the transition
         from $k$ by $\sigma$
@@ -188,6 +201,7 @@
         \EndIf
         \State $\dots$
       }
+
 
       % \State $\dots$
       % \State $k \gets $ FindBetter($m+1, p[m+1-lrs(m+1)]$)
@@ -201,9 +215,13 @@
       \EndFunction
     \end{algorithmic}
   \end{algorithm}
+\end{minipage}
 
-  % ------------------------------- EXAMPLE ! -------------------------------
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Example                                                              %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{center}
+    \resizebox{\textwidth}{!}{%
     \begin{tikzpicture}
       \def\final{93}% final slide
 
@@ -228,7 +246,7 @@
 
       \end{scope}
 
-      \begin{scope}[yshift=-1.5cm]
+      \begin{scope}[yshift=-2cm]
 
         %initial state
         \visible<2-\final>{\node[state] (s0) {0};}
@@ -246,7 +264,7 @@
         \foreach \src/\dest/\sym/\slide in {0/2/b/13, 2/4/c/30,
           0/4/c/33, 4/8/d/64, 0/8/d/67}{
           \visible<\slide-\final>{
-            \path (s\src) edge [trans, bend right=40] node
+            \path (s\src) edge [trans, bend right=30] node
             [font=\scriptsize,below, pos=1, ballblue] {\sym} (s\dest);
           }
         }
@@ -261,12 +279,11 @@
         \foreach \lrs/\slide [count=\s from 0] in {0/2, 0/8, 0/18,
           1/25, 0/38, 1/45, 2/52, 2/59, 0/72, 1/79, 2/93} {
           \visible<\slide-\final>{
-            \node[right of = s\s, node distance = 3.5mm,font=\scriptsize, yshift=-1.5mm, antiquefuchsia] {\lrs};
+            \node[right of = s\s, node distance = 3mm,font=\tiny, yshift=-1mm, antiquefuchsia] {\lrs};
           }
         }
 
       \end{scope}
-
 
       \begin{scope}[xshift=7.5cm]
 
@@ -276,21 +293,21 @@
           \visible<\slideI-\slideF>{\node (m) {$m = \m$};}
         }
 
-        % k
-        \foreach \k/\slideI/\slideF in {-1/4/8, 0/11/14, -1/15/18,
-          0/21/25, 2/28/31, 0/32/34, -1/35/38, 0/41/45, 1/48/52,
-          2/55/59, 4/62/65, 0/66/68, -1/69/72, 0/75/79, 1/82/86, 2/89/93} {
-          \visible<\slideI-\slideF>{
-            \node[right = 0.5mm of m] (k) {$k = \k$};
-          }
-        }
-
         % pi
         \foreach \p/\slideI/\slideF in {0/4/8, 1/11/13, 0/14/18,
           2/21/25, 3/28/30, 2/31/33, 0/34/38, 4/41/45, 5/48/52,
           6/55/59, 7/62/64, 4/65/67, 0/68/72, 8/75/79, 9/82/86, 10/89/93} {
           \visible<\slideI-\slideF>{
-            \node[right = 0.5mm of k] (p) {$\pi_{1} = \p$};
+            \node[right = 0.5mm of m] (p) {$\pi_{1} = \p$};
+          }
+        }
+
+        % k
+        \foreach \k/\slideI/\slideF in {-1/4/8, 0/11/14, -1/15/18,
+          0/21/25, 2/28/31, 0/32/34, -1/35/38, 0/41/45, 1/48/52,
+          2/55/59, 4/62/65, 0/66/68, -1/69/72, 0/75/79, 1/82/86, 2/89/93} {
+          \visible<\slideI-\slideF>{
+            \node[right = 0.5mm of p] (k) {$k = \k$};
           }
         }
 
@@ -303,12 +320,13 @@
         }
       \end{scope}
 
-      \begin{scope}[xshift=10cm, yshift=-2cm]
+      \begin{scope}[xshift=10cm, yshift=-2.5cm]
         \foreach \i in {1,...,\final} {
           \only<\i>{\node {slide \i};}
         }
       \end{scope}
     \end{tikzpicture}
+    }
   \end{center}
 
 \end{frame}
