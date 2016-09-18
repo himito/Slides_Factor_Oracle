@@ -37,22 +37,24 @@
     \end{scope}
   \end{tikzpicture}
 
-  \only<1>{
-    \begin{block}{Factor Oracle}
-      The \alert{factor oracle} of a word $s$ of length $m$ is a
-      \emph{deterministic finite automaton} $(Q, q_{0}, F, \delta)$
-      where $Q = \{0,1,\dots,m\}$ is the set of states, $q_{0}=0$ is the
-      starting state, $F = Q$ is the set of terminal states and $\delta$
-      is the transition function.
-    \end{block}}
+  \begin{minipage}[t][4.5cm][t]{\textwidth}
+    \only<1>{
+      \begin{block}{Factor Oracle}
+        The \alert{factor oracle} of a word $s$ of length $m$ is a
+        \emph{deterministic finite automaton} $(Q, q_{0}, F, \delta)$
+        where $Q = \{0,1,\dots,m\}$ is the set of states, $q_{0}=0$ is the
+        starting state, $F = Q$ is the set of terminal states and $\delta$
+        is the transition function.
+      \end{block}}
 
-  \only<2>{
-    \begin{block}{Suffix Link}
-      The \alert{suffix link} of a state $i$ of the factor oracle of a
-      word $s$, is equal to the state in which the \emph{longest
-        repeated suffix (lrs)} of $s[1\dots{}i]$ is recognized.
-    \end{block}
-  }
+    \only<2>{
+      \begin{block}{Suffix Link}
+        The \alert{suffix link} of a state $i$ of the factor oracle of a
+        word $s$, is equal to the state in which the \emph{longest
+          repeated suffix (lrs)} of $s[1\dots{}i]$ is recognized.
+      \end{block}}
+  \end{minipage}
+
 \end{center}
 
 \end{frame}
@@ -103,19 +105,21 @@
     \end{tikzpicture}
 \end{center}
 
-\begin{block}{Suffix Links}
-  \begin{itemize}[<+->]
-  \item $s = \mathtt{abbc\textcolor<2>{red}{abc}d\textcolor<2>{red}{abc}}$
-  \item $lrs(s) = \mathtt{abc}$
-  \item $S(11) = 7$
-  \end{itemize}
-\end{block}
+  \begin{minipage}[t][4.5cm][t]{\textwidth}
+    \begin{block}{Suffix Links}
+      \begin{itemize}[<+->]
+      \item $s = \mathtt{abbc\textcolor<2>{red}{abc}d\textcolor<2>{red}{abc}}$
+      \item $lrs(s) = \mathtt{abc}$
+      \item $S(11) = 7$
+      \end{itemize}
+    \end{block}
+  \end{minipage}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Factor Oracle's Algorithm                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{factor_oracle_alg}
+% \input{factor_oracle_alg}
 
 
 %%% Local Variables:
