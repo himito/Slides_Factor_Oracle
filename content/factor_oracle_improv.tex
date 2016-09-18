@@ -1,0 +1,117 @@
+\begin{frame}[fragile]{Factor Oracle}
+  \framesubtitle{Algorithm - Improvisation}
+  \begin{algorithm}[H] \caption{FO-Generate function}\label{alg:fo-impro}
+    \begin{algorithmic}[1]
+      \Require Oracle $P=p_{1},p_{2}\dots{}p_{m}$ in active state $i$,
+      a generated sequence $v$, and a continuation parameter $0 \leq q
+      \leq 1$.
+      \Statex
+      \State Generate uniformly distribute random number $u$
+      \If {$u < q$}
+      \State $i \gets i + 1$ \qquad $v \gets vp_{i}$
+      \Else
+      \State Choose at random a symbol $\sigma \in \{\sigma_{j}\, |\,
+      \delta(S(i), \sigma_{j}) \neq \bot \}$
+      \State $i \gets \delta(S(i), \sigma)$ \qquad  $v \gets v\sigma$
+      \EndIf
+      \State \textbf{return} Sequence $v$
+    \end{algorithmic}
+  \end{algorithm}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Example                                                              %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \vspace{-8mm}
+  \begin{center}
+    \visible<2->{
+      \resizebox{\textwidth}{!}{%
+        \begin{tikzpicture}
+          \begin{scope}
+
+            % initial state
+            \node[state] (s0) {0};
+
+            % forward internal link
+            \foreach \sym [count=\src from 0, count=\dest from 1] in {a,b,b,c,a,b,c,d,a,b,c} {
+              \node[state, right of = s\src]  (s\dest)   {\dest};
+              \path (s\src) edge [trans] node [font=\scriptsize, above,
+              yshift=-1mm, xshift=-1mm, pos=0.7, ballblue] {\texttt{\sym}} (s\dest);
+            }
+
+            % forward external link
+            \foreach \src/\dest/\sym in {0/2/b, 2/4/c,
+              0/4/c, 4/8/d, 0/8/d}{
+              \path (s\src) edge [trans, bend right=30] node
+              [font=\scriptsize,below, pos=1, ballblue] {\sym} (s\dest);
+            }
+
+            % Suffix link
+            \foreach \src/\dest in {1/0,2/0,3/2, 4/0,
+              5/1, 6/2, 7/4, 8/0, 9/1, 10/2, 11/4} {
+              \path (s\src) edge [trans, dashed, draw=gray, bend right] (s\dest);
+            }
+
+            % lrs
+            \foreach \lrs [count=\s from 0] in {0, 0, 0,
+              1, 0, 1, 2, 2, 0, 1, 2, 2} {
+              \node[right of = s\s, node distance = 3mm,font=\tiny, yshift=-1mm, antiquefuchsia] {\lrs};
+            }
+
+            \begin{pgfonlayer}{background}
+              \only<2-3>\node[state,fill=orange!50] at (s7) {};
+
+              \only<3>{
+                \path (s7) edge [draw,line width=5pt,-,orange!50, bend
+                right] (s4);
+                \node[state,fill=orange!50] at (s4) {};
+              }
+
+              \only<4>{
+                \path (s4) edge [draw,line width=5pt,-,red!30] (s5);
+                \node[state,fill=red!30] at (s5) {};
+                \path (s4) edge [draw,line width=5pt,-,red!30, bend
+                right] (s8);
+                \node[state,fill=red!30] at (s8) {};
+
+                \node[state,fill=red!30] at (s4) {};
+              }
+
+              \only<5>{
+                \node[state,fill=orange!50] at (s5) {};
+              }
+
+              % highlighting  suffix link
+              % \foreach \src/\dest/\slideI/\slideF in {10/2/3/5, 3/2/4/5} {
+              %   \visible<\slideI-\slideF>{
+              %     \path (s\src) edge [draw,line width=5pt,-,orange!50, bend right] (s\dest);
+              %     \node[state,fill=orange!50] at (s\src) {};
+              %     \node[state,fill=orange!50] at (s\dest) {};
+              %   }
+              % }
+
+            \end{pgfonlayer}
+
+          \end{scope}
+
+          \begin{scope}[xshift=9.5cm, yshift=-0.7cm]
+
+            % v
+            \node (v) {$v = \mathtt{cabc\visible<5->{\alert{a}}}$};
+
+            % 1
+            \node[below = 0.5mm of v] (1) {$q = 0.5$};
+
+            % % pi2
+            % \node[right = 0.5mm of p1] (p2) {$\pi_{2} = 3$};
+
+          \end{scope}
+        \end{tikzpicture}
+      }
+    }
+  \end{center}
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../slides"
+%%% End:
